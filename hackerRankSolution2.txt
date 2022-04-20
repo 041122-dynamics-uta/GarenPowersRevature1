@@ -1,0 +1,6 @@
+//HACKERRANK2
+#!/bin/bash
+
+read name
+
+echo "Welcome $name"
