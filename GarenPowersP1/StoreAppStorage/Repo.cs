@@ -15,13 +15,13 @@ public class Repo
 
         using (SqlConnection query1 = new SqlConnection(connectionstring))
         {
-            string myQuery1 = "INSERT INTO Buyer ([BuyerId], [FirstName], [LastName], [Credentials], [Email]) Value (1, '@F', '@L', '@C', '@E')";
+            string myQuery1 = "INSERT INTO Buyer (BuyerId, FirstName, LastName, Credentials, Email) Value ('@F', '@L', '@C', '@E')";
             SqlCommand command = new SqlCommand(myQuery1, query1);
-            command.Parameters.AddWithValue("@B", 1);
-            command.Parameters.AddWithValue("@FirstName", "First Name");
-            command.Parameters.AddWithValue("@LastName", "Last Name");
-            command.Parameters.AddWithValue("@Credentials", "Credentials");
-            command.Parameters.AddWithValue("@Email", "Email");
+            //command.Parameters.AddWithValue("@B", 1);
+            command.Parameters.AddWithValue("@F",1);
+            command.Parameters.AddWithValue("@L",1);
+            command.Parameters.AddWithValue("@C",1);
+            command.Parameters.AddWithValue("@E",1);
             command.Connection.Open(); //open the connection to the DB
             int results = command.ExecuteNonQuery();
             //if (results < 0) Console.WriteLine("error");
