@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+			body
+			{
+				overflow: auto;
+                background-color: grey;
+			}
+			button
+			{
+  			background-color: #4CAF50; 
+  			border: Bold;
+  			color: white;
+  			padding: 20px 30px;
+  			text-align: center;
+  			text-decoration: none;
+  			display: inline-block;
+  			font-size: 16px;
+				border-radius: 10px;				
+			}
+
+			button:hover
+			{
+				cursor:pointer;
+				box-shadow: 5px 3px 3px whitesmoke;
+			}
+
+			.b-main-wrapper
+			{
+				margin: 10px auto; width: 50%;
+			}
+
+			.b-info-header
+			{
+				text-align: center
+			}
+
+			.b-info 
+            {
+            font-size: 1.25rem;
+            color: black;
+            }
+			
+
+			.b-info__par
+			{
+				font-weight: 600
+			}
+
+			.b-form__error
+			{
+				color: black;
+			}
+
+			.b-input-wrapper_display_none, .b-form_display_none, .b-result_display_none, .b-result-wrapper_display_none, .b-result-wrapper__par_display_none, .b-form__error_display_none
+			{
+				display: none;
+			}
+
+			.b-input-wrapper
+			{
+                color: black;
+			}
+
+			.b-form
+			{
+				overflow:auto
+			}
+
+			.b-form__button-submit
+			{
+                color: aliceblue;
+			}
+
+			.b-form__label
+			{
+                color: red;
+			}
+
+			.b-form__input-text
+			{
+                color: black;
+			}
+
+			.b-result-wrapper
+			{
+                color: black
+			}
+			
+			.b-result-wrapper__par
+			{
+                color:black
+			}
+
+			.b-form__input
+			{
+				width: 100%;
+  			padding: 12px 20px;
+  			margin: 8px 0;
+  			box-sizing: border-box;
+			}
+
+			.b-form__result_text-color_white
+			{
+				color: white;
+			} 
+			
+			.b-form__result_bgd_green
+			{
+				background-color: blue;
+			}
+		</style>
+  </head>
+  <body>
+    <div class="b-main-wrapper">
+      <h1 class="b-info-header">SweetAndSalty</h1>
+      <div class="b-info">
+        <p class="b-info__par">User inputs three Digits...</p>
+        <p class="b-info__par">First is the starting number...</p>
+        <p class="b-info__par">Second is the stoping number...</p>
+        <p class="b-info__par">
+          If the number is a multiple of three, “Sweet” is printed instead of
+          the number to the console
+        </p>
+        <p class="b-info__par">
+          If the number is a multiple of five, “Salty” will print instead of the
+          number to the console.
+        </p>
+        <p class="b-info__par">
+          For numbers that are multiples of three and five, “SweetnSalty”
+          will print to the console (instead of the number).
+        </p>
+        <p class="b-info__par">
+          After the numbers print to the console, 3 separate
+          lines will be printed: how many "Sweet", "Salty" and
+          "SweetnSalty"?
+        </p>
+      </div>
+
+      <br />
+
+      <div class="b-input-wrapper ">	
+				<div class="b-form ">
+					<p>Click Submit Button To Start the Game</p>
+          <button type="submit" class="b-form__button-submit" type="submit" value="Press to start" onClick="javascript:Submit();">Submit</button>
+        </div>
+				<div class="b-form b-form_display_none">
+					<span>Enter the starting number</span>
+					<input class="b-form__input" placeholder="Enter the start number" type="text"> 
+					<p class="b-form__error b-form__error_display_none">error</p>
+          <button type="submit" class="b-form__button-submit" type="submit" onClick="javascript:Submit();">Submit</button>
+        </div>
+				<div class="b-form b-form_display_none">
+					<span>Enter your final number</span>
+					<input type="text" class="b-form__input">
+					<p class="b-form__error b-form__error_display_none">error</p>
+          <button type="submit" class="b-form__button-submit" type="submit" onClick="javascript:Submit();">Submit</button>
+        </div>
+				<div class="b-form b-form_display_none">
+					<p>Click Submit Button To Display Results</p><br>
+          <button type="submit" class="b-form__button-submit" type="submit" onClick="javascript:Submit();">Submit</button>
+        </div>
+			</div>
+
+      <div class="b-form b-form_display_none">
+				
+      	<p class="b-form__result b-form__result_text-color_white b-form__result_bgd_green">Sweet</p>
+      	<p class="b-form__result b-form__result_text-color_white b-form__result_bgd_green">Salty</p>
+      	<p class="b-form__result b-form__result_text-color_white b-form__result_bgd_green">SweatSalty</p>
+
+        <button class="b-form__button-submit" type="submit" onClick="javascript:Submit();">Reset</button>
+			<div>
+    </div>
+
+    <script type="text/javascript">
+			var startValue;
+			var finishValue;
+			var lineQuantity;
+			var sweetandsalties = [];
+			//counters
+			var sweet = 0;
+			var salty = 0;
+			var sweetSalty = 0;
+			
+
+			function Submit()
+			{
+				let collection = document.getElementsByClassName("b-form");
+				let inputValue;
+
+				if (!collection[0].classList.contains('b-form_display_none')) 
+				{
+					collection[0].classList.add('b-form_display_none');
+					collection[1].classList.remove('b-form_display_none');					
+				} 
+				else if (!collection[1].classList.contains('b-form_display_none')) 
+				{						
+					if(!CheckMinMax(collection[1].children[1].value))
+					{						
+						document.getElementsByClassName("b-form__error")[0].textContent = "Start value can not be less than 200 or more than 1000";
+						document.getElementsByClassName("b-form__error")[0].classList.remove("b-form__error_display_none");		
+						return;				
+					}	
+						collection[1].classList.add('b-form_display_none');
+						collection[2].classList.remove('b-form_display_none');
+						startValue = collection[1].children[1].value;
+				} 
+				else if(!collection[2].classList.contains('b-form_display_none')) 
+				{	
+					finishValue = collection[2].children[1].value;
+					if (!CheckMinMax(finishValue)) {
+						document.getElementsByClassName("b-form__error")[1].textContent = "Start value can not be less than 200 or more than 1000";
+						document.getElementsByClassName("b-form__error")[1].classList.remove("b-form__error_display_none");	
+						finishValue = 0;	
+						return;	
+					}
+					else if (startValue >= finishValue)
+					{
+						document.getElementsByClassName("b-form__error")[1].textContent = `Start value ${startValue} can not be more than finish value`;
+						document.getElementsByClassName("b-form__error")[1].classList.remove("b-form__error_display_none");	
+						finishValue = 0;
+						return;
+					}
+					collection[2].classList.add('b-form_display_none');
+					collection[3].classList.remove('b-form_display_none');
+					finishValue = collection[2].children[1].value;
+				}
+				else if(!collection[3].classList.contains('b-form_display_none'))
+				{
+					collection[3].classList.add('b-form_display_none');
+					collection[4].classList.remove('b-form_display_none');
+
+					sweetandsalties = SweetAndSalty(startValue, finishValue);
+
+					const results = document.getElementsByClassName('b-form__result');
+					results[0].innerText = `Sweet = ${sweet}`;
+					results[1].innerText = `Salty = ${salty}`;
+					results[2].innerText = `SweetnSalty = ${sweetSalty}`;
+					
+					const div = document.createElement('div');	
+					div.setAttribute('class', 'b-form');				
+					let strOf40Elem = "";
+
+					for (let index = 0; index < sweetandsalties.length; index++) 
+					{
+							const p = document.createElement('p');
+							p.innerText = sweetandsalties[index].toString();
+							div.appendChild(p);
+							// appends to DOM
+							collection[4].prepend(div);
+					}					
+				}
+				else if(!collection[4].classList.contains('b-form_display_none'))
+				{
+					startValue = 0;
+					finishValue = 0;
+					sweetandsalties = [];
+					sweet = 0;
+					salty = 0;
+					sweetSalty = 0;
+
+					collection[1].children[1].value = "";
+					collection[2].children[1].value = "";
+				
+					document.getElementsByClassName("b-form__error")[0].classList.add("b-form__error_display_none");	
+					document.getElementsByClassName("b-form__error")[1].classList.add("b-form__error_display_none");	
+					collection[0].classList.remove('b-form_display_none');
+					collection[1].classList.add('b-form_display_none');
+					collection[2].classList.add('b-form_display_none');
+					collection[3].classList.add('b-form_display_none');
+					collection[4].classList.add('b-form_display_none');
+				}
+			}
+
+			function SweetAndSalty(start, finish)
+			{
+				sweet = 0;
+				sweet = 0;
+				sweetSalty = 0;
+				var strOfWords = "";
+				const sweetnSalties = [];
+				var counter = 0;
+
+				//iteration in `for` loop
+				for (let index = start; index <= finish; index++) 
+				{
+					++counter;
+  			//if multiples of three and five
+  			if (index % 3 === 0 && index % 5 === 0) {
+    		//concatenate " SweetnSalty" to the string
+    		strOfWords = strOfWords.concat(" SweetnSalty");
+				//sweetnSalties.push("SweetnSalty");
+    		//increase counter by one
+    		++sweetSalty;
+  			} else if (index % 3 === 0) {
+    		//concatenate " Sweet" to the string
+    		strOfWords = strOfWords.concat(" Sweet");
+				//sweetnSalties.push("Sweet");
+    		//increase counter by one
+    		++sweet;
+  			} else if (index % 5 === 0) {
+    		//concatenate " Salty" to the string
+    		strOfWords = strOfWords.concat(" Salty");
+				//sweetnSalties.push("Salty");
+  			} else {
+    		//concatenate number to the string
+    		strOfWords = `${strOfWords} ${index}`;
+				//sweetnSalties.push(index.toString());
+    		//increase counter by one
+    		++salty;
+  			}
+				if (counter === 40) {
+					sweetnSalties.push(strOfWords);
+					strOfWords = "";
+					counter = 0;
+				}
+				}
+
+				if(counter > 0)
+				{
+					sweetnSalties.push(strOfWords);
+				}
+
+				//return strOfWords;
+				return sweetnSalties;
+			}
+
+				function CompareMinMax(min, max)
+				{
+					return (min >= max) == true ? true : false;
+				}
+
+				function CheckMinMax(input)
+				{
+					return (input >= 200 && input <= 1000) == true ? true : false;
+				}
+
+    </script>
+  </body>
+</html>
