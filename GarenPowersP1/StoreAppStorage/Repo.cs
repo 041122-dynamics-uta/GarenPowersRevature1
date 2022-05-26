@@ -6,46 +6,56 @@ public class Repo
 {
     public Mapper _mapper { get; set; }
     string connectionstring = "Server=tcp:garenpowersserverp1.database.windows.net,1433;Initial Catalog=P1GarenPowersDB;Persist Security Info=False;User ID=GarenPowersDB;Password=Narita204863!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
+
+    public bool UnamePwordExists(string ExistingEmail, string ExistingCredentials)
+    {
+        string query = "SELECT  * FROM Buyer WHERE Email Like 'unicornprincessloveu@gmail.com' And Credenials like 'WELIVEINATWILIGHTWORLD'";
+        using (SqlConnection conn = new SqlConnection(connectionstring))
+        {
+            SqlCommand command = new SqlCommand(query, conn);
+            //command.Parameters.AddWithValue("@F", FirstName);
+            //command.Parameters.AddWithValue("@L", LastName);
+            command.Parameters.AddWithValue("@C", ExistingCredentials);
+            command.Parameters.AddWithValue("@E", ExistingEmail);
+            conn.Open(); //open the connection to the DB
+            SqlDataReader results = command.ExecuteReader(); //do the query
+            conn.Close(); //close the connection to the DB
+            if (results.Read())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
     public Repo()
     {
         this._mapper = new Mapper();
     }
-    public List<Buyer> Buyer()
+    public List<Buyer> Buyer(string FirstName, string LastName, string Credentials, string Email)
     {
 
         using (SqlConnection query1 = new SqlConnection(connectionstring))
         {
-            string myQuery1 = "INSERT INTO Buyer (BuyerId, FirstName, LastName, Credentials, Email) Value ('@F', '@L', '@C', '@E')";
+            string myQuery1 = "INSERT INTO Buyer ( FirstName, LastName, Credentials, Email ) VALUES ( @F, @L, @C, @E );";
             SqlCommand command = new SqlCommand(myQuery1, query1);
-            //command.Parameters.AddWithValue("@B", 1);
-            command.Parameters.AddWithValue("@F",1);
-            command.Parameters.AddWithValue("@L",1);
-            command.Parameters.AddWithValue("@C",1);
-            command.Parameters.AddWithValue("@E",1);
+            command.Parameters.AddWithValue("@F", FirstName);
+            command.Parameters.AddWithValue("@L", LastName);
+            command.Parameters.AddWithValue("@C", Credentials);
+            command.Parameters.AddWithValue("@E", Email);
             command.Connection.Open(); //open the connection to the DB
-            int results = command.ExecuteNonQuery();
-            //if (results < 0) Console.WriteLine("error");
-            //SqlDataReader results = command.ExecuteReader(); //do the query
+            SqlDataReader results = command.ExecuteReader(); //do the query
 
-            //List<Buyer> B1 = new List<Buyer>();
-            //while (results.Read())
-            //{
-            //B1.Add(this._mapper.DboToBuyer(results));//send in the row of the reader to be mapped.
-            //}
-            query1.Close();
-            if (results == 1)
+            List<Buyer> B1 = new List<Buyer>();
+            while (results.Read())
             {
-                Buyer B1 = new Buyer
-                {
-                    BuyerId = 1,
-                    FirstName = "FirstName",
-                    LastName = "LastName",
-                    Credentials = "Credentials",
-                    Email = "Email"
-                };
-                //return B1;
+                B1.Add(this._mapper.DboToBuyer(results));
+                //send in the row of the reader to be mapped.
             }
-            return null;
+            query1.Close();
+            return B1;
         }
     }
     public List<BuyerOrderForm> BuyerOrderForm()
